@@ -15,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CaptureActivity"></activity>
+        <activity android:name=".MyCaptureActivity"></activity>
     </application>
 
 </manifest>
