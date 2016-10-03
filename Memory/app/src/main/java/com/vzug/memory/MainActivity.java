@@ -1,5 +1,6 @@
 package com.vzug.memory;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,12 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
             Bitmap bmp = BitmapFactory.decodeFile(path);
 
-            String newPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File file = new File(newPath, "Test.png");
             FileOutputStream outputStream = null;
-
             try {
-                outputStream = new FileOutputStream(file);
+                outputStream = getApplicationContext().openFileOutput("test.png", Context.MODE_PRIVATE);
 
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             } catch (Exception e) {
