@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -74,12 +76,22 @@ public class MainActivity extends AppCompatActivity {
 
             String path = extras.getString(
                     Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
+            String message = data.getStringExtra("SCAN_RESULT");
+            Image img = new Image();
+            img.setMessage(message);
+            img.setPath(path);
+            images.add(img);
 
             Bitmap bmp = BitmapFactory.decodeFile(path);
 
+
+
             FileOutputStream outputStream = null;
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            Date currentDateTime = new Date();
+            String filename = "Memory" + sdfDate.format(currentDateTime);
             try {
-                outputStream = getApplicationContext().openFileOutput("test.png", Context.MODE_PRIVATE);
+                outputStream = getApplicationContext().openFileOutput(filename, Context.MODE_PRIVATE);
 
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             } catch (Exception e) {
