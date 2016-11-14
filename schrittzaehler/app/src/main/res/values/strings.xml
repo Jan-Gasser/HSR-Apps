@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">schrittzaehler</string>
+    <string name="speak_message">Gehen sie %1$s! nach %2$s!.</string>
+    <string name="endstation_message">Scanne jetzt den Code der Endstation.</string>
 </resources>
