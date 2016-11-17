@@ -15,4 +15,12 @@
         android:id="@+id/displayText"
         android:textAlignment="center"
         android:textSize="80dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan Code"
+        android:id="@+id/scanCode"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

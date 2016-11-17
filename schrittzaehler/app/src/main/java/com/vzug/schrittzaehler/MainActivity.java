@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     private static final String ACTION_RIGHT = "rechts";
     private static final int REQUEST_CODE_COUNTER    = 1;
     public static final String MESSAGE = "com.vzug.schrittzaehler.STEPS_TO_WALK";
+    private static final int SCAN_QR_CODE_REQUEST_CODE = 0;
 
     private List<Action> actions;
     private int counter = 0;
@@ -31,16 +34,23 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         text2speech = new TextToSpeech(this,this);
+
+        setButtonClickEvent();
     }
 
-    public void takeQrCodePicture() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setCaptureActivity(MyCaptureActivity.class);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-        integrator.setOrientationLocked(false);
-        integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
-        integrator.initiateScan();
+    private void setButtonClickEvent()
+    {
+        ((Button)findViewById(R.id.scanCode)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+                startActivityForResult(intent, SCAN_QR_CODE_REQUEST_CODE);
+            }
+        });
     }
+
+
 
     private void handleActions(List<Action> actions) {
         this.actions = actions;
@@ -59,9 +69,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == IntentIntegrator.REQUEST_CODE
-                && resultCode == RESULT_OK) {
+        if (requestCode == IntentIntegrator.REQUEST_CODE && resultCode == RESULT_OK) {
             String message = data.getStringExtra("SCAN_RESULT");
+            // message = {“input”:[“10″,”links”,”15″,”rechts”,”20″,”links”,”25″], “startStation” :1}
+            // Hier Message auslesen
         }
         else if(requestCode == REQUEST_CODE_COUNTER && resultCode == RESULT_OK) {
             counter++;
